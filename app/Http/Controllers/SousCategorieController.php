@@ -87,4 +87,5 @@ return response()->json("Selection impossible {$e->getMessage()}");
 
 
 
+
 }

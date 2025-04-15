@@ -28,19 +28,31 @@ class FormationController extends Controller
     }
     public function publicIndex(Request $request)
     {
+        // Récupérer le niveau depuis la requête
         $niveau = $request->query('niveau');
-        $formations = Formation::query();
-    
+        
+        // Initialiser la requête
+        $query = Formation::query();
+        
+        // Si un niveau est spécifié, filtrer
         if ($niveau) {
-            $formations->where('niveau', $niveau);
+            // Liste des niveaux valides
+            $niveauxValides = ['débutant', 'intermédiaire', 'avancé'];
+            
+            // Vérifier que le niveau demandé est valide
+            if (in_array(strtolower($niveau), array_map('strtolower', $niveauxValides))) {
+                $query->where('niveau', 'LIKE', $niveau);
+            }
         }
-    
-        $formations = $formations->get();
-        $niveaux = ['débutant', 'intermédiaire', 'avancé'];  // Liste des niveaux possibles
-    
+        
+        // Récupérer les formations
+        $formations = $query->get();
+        
+        // Liste des niveaux pour le dropdown
+        $niveaux = ['débutant', 'intermédiaire', 'avancé'];
+        
         return view('course', compact('formations', 'niveaux'));
     }
-    
     /**
      * Store a newly created resource in storage.
      */
@@ -139,6 +151,45 @@ public function showPublic($id)
 
     return view('course-detail', compact('formation'));
 }
+public function showcategorie(Request $request)
+{
+    // Initialisation de la requête avec les relations
+    $query = Formation::with(['formateur', 'sous_categorie.categorie'])
+                ->whereHas('formateur')
+                ->whereHas('sous_categorie');
 
+    // Filtre par sous-catégorie
+    if ($request->has('scategorie')) {
+        $query->where('sous_categorie_id', $request->scategorie);
+    }
+    // Filtre par catégorie
+    elseif ($request->has('categorie')) {
+        $query->whereHas('sous_categorie', function($q) use ($request) {
+            $q->where('categorieID', $request->categorie);
+        });
+    }
 
+    // Filtre par niveau
+    if ($request->filled('niveau')) {
+        $query->where('niveau', 'like', '%'.$request->niveau.'%');
+    }
+
+    // Récupération des formations
+    $formations = $query->get();
+
+    // Niveaux disponibles
+    $niveaux = Formation::select('niveau')
+        ->whereNotNull('niveau')
+        ->distinct()
+        ->pluck('niveau')
+        ->filter()
+        ->values();
+
+    // Récupération de la sous-catégorie si elle existe
+    $sousCategorie = $request->has('scategorie') 
+        ? SousCategorie::with('categorie')->find($request->scategorie) 
+        : null;
+
+    return view('course', compact('formations', 'niveaux', 'sousCategorie'));
+}
 }

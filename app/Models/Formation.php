@@ -55,5 +55,28 @@ public function generateQuiz()
     
     return $quiz;
 }
+public function sous_categorie()
+{
+    return $this->belongsTo(SousCategorie::class, 'sous_categorie_id');
+}
 
+
+
+
+// Dans le modèle SousCategorie
+public function categorie()
+{
+    return $this->belongsTo(Categorie::class, 'categorieID');
+}
+
+public function formations()
+{
+    return $this->hasMany(Formation::class, 'sous_categorie_id');
+}
+
+// Dans le modèle Categorie
+public function scategories()
+{
+    return $this->hasMany(SousCategorie::class, 'categorieID');
+}
 }

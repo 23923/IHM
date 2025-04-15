@@ -117,6 +117,10 @@
     </section>
 
     @include('importation.footer')
+    {{-- course-detail.blade.php --}}
+@guest
+    <script>window.location = "{{ route('login') }}";</script>
+@endguest
 
     <!-- jquery plugins here-->
     <script src="{{ asset('js/jquery-1.12.1.min.js') }}"></script>

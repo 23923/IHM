@@ -26,12 +26,15 @@
     <style>
         /* Style pour uniformiser les images */
         .special_img {
-            width: 100%;
-            height: 200px; /* Ajustez cette valeur selon vos besoins */
-            object-fit: cover; /* Pour conserver les proportions de l'image */
-            object-position: center; /* Pour centrer l'image */
-        }
-        
+    width: 50%;
+    height: 100px; /* Diminué par rapport à 200px */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    object-fit: cover;
+    object-position: center;
+}
+
         /* Pour s'assurer que toutes les cartes ont la même hauteur */
         .single_special_cource {
             height: 100%;
@@ -81,16 +84,6 @@
     }
 
 
-    .dropdown-toggle::after {
-        content: ' ▼';
-        font-size: 0.8em;
-        transition: transform 0.3s;
-        margin-left: 5px;
-    }
-
-    .dropdown-toggle[aria-expanded="true"]::after {
-        transform: rotate(180deg);
-    }
 
     /* Ajout d'un effet d'ombre portée autour du menu au survol */
     .dropdown:hover .dropdown-menu {
@@ -135,9 +128,46 @@ a.nav-link.niveau {
     text-align: left; /* Aligner le texte à gauche */
 
 }
+.col-sm-6.col-lg-4.mb-4 {
+    padding: 10px !important; /* diminue l'espace intérieur */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
+.single_special_cource {
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 15px;
+    background-color: #fff;
+    transform: scale(0.95); /* Légèrement plus petit */
+}
 
-        
+.single_special_cource:hover {
+    transform: scale(1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+body {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+body {
+    margin: 0 40px;
+}
+
+.container {
+    max-width: 1000px !important;
+    margin: 0 auto !important;
+    padding: 0 15px !important;
+}
+.breadcrumb .container {
+    max-width: 1000px !important; /* réduit la largeur */
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+}
+
+     
     </style>
 </head>
 
@@ -151,7 +181,6 @@ a.nav-link.niveau {
                     <div class="breadcrumb_iner text-center">
                         <div class="breadcrumb_iner_item">
                             <h2>Nos cours</h2>
-                            <p>Home<span>/</span>Cours</p>
                         </div>
                     </div>
                 </div>
@@ -184,7 +213,6 @@ a.nav-link.niveau {
     </div>
 </div>
 </div>
-
 <script>
     // Ajout de l'événement pour changer de niveau
     document.querySelectorAll('.filter-level-item').forEach(item => {
@@ -200,6 +228,30 @@ a.nav-link.niveau {
         });
     });
 </script>
+<script>
+    // Gestion des étoiles de notation
+    document.querySelectorAll('.star').forEach(star => {
+        star.addEventListener('click', function(e) {
+            e.preventDefault();
+            const value = this.getAttribute('data-value');
+            const formationId = this.closest('.single_special_cource').querySelector('input[name="formation_id"]').value;
+            const formId = `ratingForm-${formationId}`;
+            
+            // Mise à jour de l'affichage des étoiles
+            const ratingContainer = this.closest('.rating');
+            ratingContainer.querySelectorAll('.star-icon').forEach(icon => {
+                const starValue = icon.getAttribute('data-star');
+                icon.src = (starValue <= value) 
+                    ? "{{ asset('img/icon/color_star.svg') }}" 
+                    : "{{ asset('img/icon/star.svg') }}";
+            });
+            
+            // Soumettre le formulaire
+            document.getElementById(`noteInput-${formationId}`).value = value;
+            document.getElementById(formId).submit();
+        });
+    });
+</script>
 
             <div class="row justify-content-center">
                 <div class="col-xl-5">
@@ -209,16 +261,32 @@ a.nav-link.niveau {
                 </div>
             </div>
           
-
-        
-            @if(isset($sousCategorie))
-                <div class="row mb-5">
-                    <div class="col-12">
-                        <h3 class="text-center">Formations en {{ $sousCategorie->nomscategorie }}</h3>
-                    </div>
-                </div>
-            @endif
             
+            @if(request()->has('categorie'))
+    @php
+        $activeCategory = App\Models\Categorie::find(request('categorie'));
+    @endphp
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="alert alert-info">
+                <h4 class="text-center mb-0">Formations dans la catégorie: 
+                    <strong>{{ $activeCategory->nomcategorie }}</strong>
+                </h4>
+            </div>
+        </div>
+    </div>
+@elseif(request()->has('scategorie') && isset($sousCategorie))
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="alert alert-info">
+                <h4 class="text-center mb-0">Formations dans la sous-catégorie: 
+                    <strong>{{ $sousCategorie->nomscategorie }}</strong>
+                    ({{ $sousCategorie->categorie->nomcategorie }})
+                </h4>
+            </div>
+        </div>
+    </div>
+@endif
             <div class="row">
                 @forelse($formations as $formation)
                     <div class="col-sm-6 col-lg-4 mb-4">
@@ -244,8 +312,8 @@ a.nav-link.niveau {
                                         <h5>{{ $formation['formateur']['name'] }}</h5>
                                     </div>
                                <!-- Affichage de la note et du formulaire de notation pour les candidats -->
-                        @if(auth()->user()->role === 'candidat')
-                            @php
+                               @if(auth()->check() && auth()->user()->role === 'candidat')
+                               @php
                                 // Récupérer la note de l'utilisateur pour cette formation
                                 $userRating = $formation->ratings->where('user_id', auth()->id())->first();
                                 
@@ -274,30 +342,7 @@ a.nav-link.niveau {
                                 </form>
                             </div>
 
-                           <script>
-    // Gestion des étoiles de notation
-    document.querySelectorAll('.star').forEach(star => {
-        star.addEventListener('click', function(e) {
-            e.preventDefault();
-            const value = this.getAttribute('data-value');
-            const formationId = this.closest('.single_special_cource').querySelector('input[name="formation_id"]').value;
-            const formId = `ratingForm-${formationId}`;
-            
-            // Mise à jour de l'affichage des étoiles
-            const ratingContainer = this.closest('.rating');
-            ratingContainer.querySelectorAll('.star-icon').forEach(icon => {
-                const starValue = icon.getAttribute('data-star');
-                icon.src = (starValue <= value) 
-                    ? "{{ asset('img/icon/color_star.svg') }}" 
-                    : "{{ asset('img/icon/star.svg') }}";
-            });
-            
-            // Soumettre le formulaire
-            document.getElementById(`noteInput-${formationId}`).value = value;
-            document.getElementById(formId).submit();
-        });
-    });
-</script>
+                         
                         @endif
 
 
@@ -315,5 +360,9 @@ a.nav-link.niveau {
     </section>
 
     @include('importation.footer')
+   
 </body>
+
 </html>
+
+

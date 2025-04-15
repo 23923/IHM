@@ -33,11 +33,12 @@
             <div class="col-lg-12">
                 <nav class="navbar navbar-expand-lg navbar-light">
                     <a class="navbar-brand logo_1" href="index.html"> 
-                        <img src="{{ asset('img/single_page_logo.png') }}" alt="logo"> 
+                    <img src="{{ asset('img/logo1.png') }}" alt="logo" style="max-height: 100px; width: auto;"> </a>
                     </a>
                     <a class="navbar-brand logo_2" href="index.html"> 
-                        <img src="{{ asset('img/logo.png') }}" alt="logo"> 
-                    </a>
+  <img src="{{ asset('img/logo.png') }}" alt="logo" style="max-height: 100px; width: auto;"> 
+</a>
+
                     <button class="navbar-toggler" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -47,25 +48,32 @@
                     <div class="collapse navbar-collapse main-menu-item justify-content-end"
                         id="navbarSupportedContent">
                         <ul class="navbar-nav align-items-center">
-                            @php
-                                $categories = App\Models\Categorie::with('scategories')->get();
-                            @endphp
-                            
-                            @foreach($categories as $category)
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown{{ $category->id }}" 
-                                   role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {{ $category->nomcategorie }}
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown{{ $category->id }}">
-                                    @foreach($category->scategories as $subcategory)
-                                        <a class="dropdown-item" href="{{ route('course', ['scategorie' => $subcategory->id]) }}">
-                                            {{ $subcategory->nomscategorie }}
-                                        </a>
-                                    @endforeach
-                                </div>
-                            </li>
-                            @endforeach
+    @php
+        $categories = App\Models\Categorie::with('scategories')->get();
+    @endphp
+    
+    @foreach($categories as $category)
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown{{ $category->id }}" 
+           role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{ $category->nomcategorie }}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown{{ $category->id }}">
+            <!-- Lien pour la catégorie principale -->
+            <a class="dropdown-item" href="{{ route('course', ['categorie' => $category->id]) }}">
+                Tous {{ $category->nomcategorie }}
+            </a>
+            <!-- Sous-catégories -->
+            @foreach($category->scategories as $subcategory)
+                <a class="dropdown-item" href="{{ route('course', ['scategorie' => $subcategory->id]) }}">
+                    {{ $subcategory->nomscategorie }}
+                </a>
+            @endforeach
+        </div>
+    </li>
+@endforeach
+        
+
                             
                             
 

@@ -21,7 +21,6 @@ Route::get('/', [FormationController::class, 'publicIndex'])->name('course');
 Route::get('/course/{formation}', [FormationController::class, 'showPublic'])->name('course.show');
 
 
-
 Route::get('/list', function () {
     return view('adminLayout/categories/list');
 })->name('list'); // Nom ajouté ici
@@ -75,7 +74,7 @@ Route::get('/souscategories', [FormationController::class, 'getSousCategories'])
 */
 
 Route::get('/course', [FormationController::class, 'publicIndex'])->name('course.public');
-Route::get('/formations/{id}', [FormationController::class, 'show'])->name('formations.show');
+// Route::get('/formations/{id}', [FormationController::class, 'show'])->name('formations.show');
 Route::post('/ratings', [RatingController::class, 'store'])->name('ratings.store');
 // routes/web.php
 // Route pour afficher le quiz (GET)
@@ -93,3 +92,11 @@ Route::get('/formations/{formationId}/quiz', [QuizController::class, 'show'])
 // web.php
 Route::get('/certificat/{quiz}', [CertificateController::class, 'showCertificateView'])
     ->name('certificat.show');
+
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/formations/{id}', [FormationController::class, 'showPublic'])->name('formations.show');
+    });
+
+    Route::get('/formations/sous-categorie/{id}', [FormationController::class, 'showFormationsParSousCategorie'])->name('formations.souscategorie');
+    Route::get('/courses', [FormationController::class, 'index'])->name('courses');
+    Route::get('/courses', [App\Http\Controllers\FormationController::class, 'showcategorie'])->name('course');

@@ -4,7 +4,7 @@
             <div class="row justify-content-between">
                 <div class="col-sm-6 col-md-4 col-xl-3">
                     <div class="single-footer-widget footer_1">
-                        <a href="index.html"> <img src="{{ asset('img/logo.png') }}" alt=""> </a>
+                        <a href="index.html"> <img src="{{ asset('img/logo.png') }}" alt="logo" style="max-height: 100px; width: auto;"> </a>
                         
                     </div>
                 </div>
