@@ -75,5 +75,14 @@ public function quizzs()
 {
     return $this->belongsToMany(Quiz::class)->withPivot('score')->withTimestamps();
 }
+public function scores()
+{
+    return $this->hasMany(Score::class);
+}
+
+public function certificats()
+{
+    return $this->hasMany(Certificat::class);
+}
 
 }

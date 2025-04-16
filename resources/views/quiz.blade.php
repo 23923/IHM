@@ -3,6 +3,7 @@
 <head>
     <!-- Meta tags et CSS comme avant -->
     <title>Quiz: {{ $quiz->title }}</title>
+    
 </head>
 <body>
     @include('importation.header')

@@ -35,7 +35,7 @@
                     <div class="breadcrumb_iner text-center">
                         <div class="breadcrumb_iner_item">
                             <h2>Détails de la formation</h2>
-                            <p>Home<span>/</span>Formations<span>/</span>{{ $formation->titre }}</p>
+                            <p></span>Formations<span>/</span>{{ $formation->titre }}</p>
                         </div>
                     </div>
                 </div>

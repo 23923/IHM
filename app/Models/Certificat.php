@@ -12,20 +12,10 @@ class Certificat extends Model
         'user_id',
         'formation_id',
         'quiz_id',
-        'score',
-        'is_passed',
+        'score_id', // Changé de 'score' à 'score_id'
         'date_obtention',
         'code_certificat'
     ];
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($certificat) {
-            $certificat->code_certificat = 'CERT-' . strtoupper(uniqid());
-        });
-    }
 
     public function user()
     {
@@ -40,5 +30,10 @@ class Certificat extends Model
     public function quiz()
     {
         return $this->belongsTo(Quiz::class);
+    }
+
+    public function score()
+    {
+        return $this->belongsTo(Score::class);
     }
 }

@@ -1,13 +1,16 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Certificat;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Formation;
 use App\Models\Quiz;
+use App\Models\Score;
 use App\Models\User;
 use Dotenv\Validator;
 use Illuminate\Container\Attributes\Log;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Str;
 class QuizController extends Controller
 {
     public function show($formationId)
@@ -173,47 +176,66 @@ class QuizController extends Controller
         return response()->json(['message' => 'Quiz supprimé avec succès']);
     }
     public function submit(Request $request, $quizId)
-{
-    $quiz = Quiz::findOrFail($quizId);
-    $answers = $request->input('answers', []);
-    $score = 0;
-    $totalPoints = 0;
-
-    foreach ($quiz->questions as $index => $question) {
-        $questionPoints = $question['points'] ?? 1;
-        $totalPoints += $questionPoints;
-
-        // Vérifier les réponses selon le type de question
-        if ($question['type'] === 'multiple') {
-            $correctOptionIndex = collect($question['options'])->search(fn($opt) => $opt['correct']);
-            if ((int)$answers[$index] === $correctOptionIndex) {
-                $score += $questionPoints;
-            }
-        } elseif ($question['type'] === 'true_false') {
-            $correctAnswer = $question['correct_answer'] ? 1 : 0;
-            if ((int)$answers[$index] === $correctAnswer) {
-                $score += $questionPoints;
+    {
+        $quiz = Quiz::findOrFail($quizId);
+        $user = Auth::user();
+        $answers = $request->input('answers', []);
+        $score = 0;
+        $totalPoints = 0;
+    
+        foreach ($quiz->questions as $index => $question) {
+            $questionPoints = $question['points'] ?? 1;
+            $totalPoints += $questionPoints;
+    
+            if ($question['type'] === 'multiple') {
+                $correctOptionIndex = collect($question['options'])->search(fn($opt) => $opt['correct']);
+                if ((int)$answers[$index] === $correctOptionIndex) {
+                    $score += $questionPoints;
+                }
+            } elseif ($question['type'] === 'true_false') {
+                $correctAnswer = $question['correct_answer'] ? 1 : 0;
+                if ((int)$answers[$index] === $correctAnswer) {
+                    $score += $questionPoints;
+                }
             }
         }
-    }
-
-    $percentage = ($totalPoints > 0) ? ($score / $totalPoints) * 100 : 0;
-
-    if ($percentage >= $quiz->passing_score) {
-        // Exemple de génération de certificat
-        return view('success', [
-            'quiz' => $quiz,
-            'score' => round($percentage, 2),
-            'certificat' => true
+    
+        $percentage = round(($totalPoints > 0) ? ($score / $totalPoints) * 100 : 0, 2);
+        $isPassed = $percentage >= $quiz->passing_score;
+    
+        // Créer le score d'abord
+        $scoreRecord = Score::create([
+            'user_id' => $user->id,
+            'quiz_id' => $quiz->id,
+            'formation_id' => $quiz->formation_id, // Ajouté pour cohérence
+            'score' => $percentage,
+            'is_passed' => $isPassed,
         ]);
-    } else {
-        return view('failed', [
+    
+        // Créer le certificat seulement si réussi
+        $certificat = null;
+        if ($isPassed) {
+            $certificat = Certificat::create([
+                'user_id' => $user->id,
+                'formation_id' => $quiz->formation_id,
+                'quiz_id' => $quiz->id,
+                'score_id' => $scoreRecord->id,
+                'code_certificat' => 'CERT-' . strtoupper(uniqid()),
+                'date_obtention' => now(),
+            ]);
+    
+            // Mettre à jour le score avec l'ID du certificat
+            $scoreRecord->update(['certif_id' => $certificat->id]);
+        }
+    
+        return view($isPassed ? 'success' : 'failed', [
             'quiz' => $quiz,
-            'score' => round($percentage, 2),
-            'certificat' => false
+            'score' => $percentage,
+            'certificat' => $certificat
         ]);
     }
-}
+    
+  
 // QuizController.php
 // QuizController.php
 }

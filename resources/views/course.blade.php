@@ -311,65 +311,71 @@ body {
                                         <p>Formateur:</p>
                                         <h5>{{ $formation['formateur']['name'] }}</h5>
                                     </div>
-                               <!-- Affichage de la note et du formulaire de notation pour les candidats -->
-                               @if(auth()->check() && auth()->user()->role === 'candidat')
-                               @php
-                                // Récupérer la note de l'utilisateur pour cette formation
-                                $userRating = $formation->ratings->where('user_id', auth()->id())->first();
-                                
-                                // Calculer la note moyenne
-                                $averageRating = number_format($formation->ratings->avg('note') ?? 0, 1);
-                            @endphp
+                                    @php
+    $user = auth()->user();
+    $userRating = $formation->ratings->where('user_id', $user->id ?? null)->first();
+    $averageRating = number_format($formation->ratings->avg('note') ?? 0, 1);
+@endphp
 
-                            <div class="author_rating">
-    <div class="rating">
-        @for($i = 1; $i <= 5; $i++)
-            <a href="#" class="star" data-value="{{ $i }}" data-formation="{{ $formation->id }}">
-                <img src="{{ asset($userRating && $i <= $userRating->note ? 'img/icon/color_star.svg' : 'img/icon/star.svg') }}" 
-                     alt="{{ $i }} star"
-                     class="star-icon">
-            </a>
-        @endfor
+@if(auth()->check() && in_array($user->role, ['candidat', 'formateur']))
+    <div class="author_rating">
+        <div class="rating">
+            @if($user->role === 'candidat')
+                {{-- Candidat : étoiles interactives (même sans note) --}}
+                @for($i = 1; $i <= 5; $i++)
+                    <a href="#" class="star" data-value="{{ $i }}" data-formation="{{ $formation->id }}">
+                        <img src="{{ asset($i <= ($userRating->note ?? 0) ? 'img/icon/color_star.svg' : 'img/icon/star.svg') }}" 
+                             alt="{{ $i }} star"
+                             class="star-icon">
+                    </a>
+                @endfor
+
+                <!-- Formulaire pour créer ou modifier la note -->
+                <form id="ratingForm-{{ $formation->id }}" action="{{ route('ratings.store') }}" method="POST" class="d-none">
+                    @csrf
+                    <input type="hidden" name="formation_id" value="{{ $formation->id }}">
+                    <input type="hidden" name="note" id="noteInput-{{ $formation->id }}" value="{{ $userRating->note ?? '' }}">
+                </form>
+            @else
+                {{-- Formateur : étoiles en lecture seule --}}
+                @for($i = 1; $i <= 5; $i++)
+                    <img src="{{ asset($i <= round($formation->ratings->avg('note')) ? 'img/icon/color_star.svg' : 'img/icon/star.svg') }}" 
+                         alt="{{ $i }} star"
+                         class="star-icon">
+                @endfor
+            @endif
+        </div>
+
+        <p>{{ $averageRating }} ({{ $formation->ratings->count() }} avis)</p>
     </div>
-    <p>{{ $averageRating }} ({{ $formation->ratings->count() }} avis)</p>
-    
-    <!-- Formulaire pour enregistrer la note -->
-    <form id="ratingForm-{{ $formation->id }}" action="{{ route('ratings.store') }}" method="POST" class="d-none">
-        @csrf
-        <input type="hidden" name="formation_id" value="{{ $formation->id }}">
-        <input type="hidden" name="note" id="noteInput-{{ $formation->id }}" value="{{ $userRating->note ?? '' }}">
-    </form>
-</div>
+@endif
 
+@if(auth()->check() && $user->role === 'candidat')
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.star').forEach(star => {
-        star.addEventListener('click', function(e) {
-            e.preventDefault();
-            const formationId = this.getAttribute('data-formation');
-            const value = this.getAttribute('data-value');
-            
-            // Mettre à jour l'affichage des étoiles
-            const stars = document.querySelectorAll(`.star[data-formation="${formationId}"]`);
-            stars.forEach((s, i) => {
-                const starImg = s.querySelector('img');
-                if (i < value) {
-                    starImg.src = "{{ asset('img/icon/color_star.svg') }}";
-                } else {
-                    starImg.src = "{{ asset('img/icon/star.svg') }}";
-                }
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.star').forEach(star => {
+            star.addEventListener('click', function (e) {
+                e.preventDefault();
+                const formationId = this.getAttribute('data-formation');
+                const value = this.getAttribute('data-value');
+
+                const stars = document.querySelectorAll(`.star[data-formation="${formationId}"]`);
+                stars.forEach((s, i) => {
+                    const starImg = s.querySelector('img');
+                    if (i < value) {
+                        starImg.src = "{{ asset('img/icon/color_star.svg') }}";
+                    } else {
+                        starImg.src = "{{ asset('img/icon/star.svg') }}";
+                    }
+                });
+
+                document.getElementById(`noteInput-${formationId}`).value = value;
+                document.getElementById(`ratingForm-${formationId}`).submit();
             });
-            
-            // Soumettre le formulaire
-            document.getElementById(`noteInput-${formationId}`).value = value;
-            document.getElementById(`ratingForm-${formationId}`).submit();
         });
     });
-});
 </script>
-
-                         
-                        @endif
+@endif
 
 
     </div>
