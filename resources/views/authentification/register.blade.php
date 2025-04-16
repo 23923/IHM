@@ -1,172 +1,265 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- [Head] start -->
-
 <head>
-  <title>Register</title>
-  <!-- [Meta] -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="description" content="Mantis is made using Bootstrap 5 design framework. Download the free admin template & use it for your project.">
-  <meta name="keywords" content="Mantis, Dashboard UI Kit, Bootstrap 5, Admin Template, Admin Dashboard, CRM, CMS, Bootstrap Admin Template">
-  <meta name="author" content="CodedThemes">
+  <meta charset="UTF-8">
+  <title>Créer un compte</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;600&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: 'Public Sans', sans-serif;
+      background-image: url("{{ asset('img/background.jpg') }}");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      margin: 0;
+    }
 
-  <!-- [Favicon] icon -->
-  <link rel="icon" href="{{ asset('style_authentification/assets/images/favicon.svg') }}" type="image/x-icon"> <!-- [Google Font] Family -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" id="main-font-link">
-<!-- [Tabler Icons] https://tablericons.com -->
-<link rel="stylesheet"  href="{{ asset('style_authentification/assets/fonts/tabler-icons.min.css') }}" >
-<!-- [Feather Icons] https://feathericons.com -->
-<link rel="stylesheet"  href="{{ asset('style_authentification/assets/fonts/feather.css') }}" >
-<!-- [Font Awesome Icons] https://fontawesome.com/icons -->
-<link rel="stylesheet" href="{{ asset('style_authentification/assets/fonts/fontawesome.css') }}" >
-<!-- [Material Icons] https://fonts.google.com/icons -->
-<link rel="stylesheet" href="{{ asset('style_authentification/assets/fonts/material.css') }}" >
-<!-- [Template CSS Files] -->
-<link rel="stylesheet" href="{{ asset('style_authentification/assets/css/style.css') }}" id="main-style-link" >
-<link rel="stylesheet" href="{{ asset('style_authentification/assets/css/style-preset.css') }}" >
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+    }
 
+    .navbar-custom {
+      background-color: #fff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      padding: 1rem 2rem;
+    }
+
+    .navbar-custom .nav-link {
+      color: #333 !important;
+      font-weight: 300px!important;
+    }
+
+    .navbar-custom .nav-link:hover {
+      color: #4c83ff !important;
+    }
+
+    .navbar-custom .btn-primary {
+      background: linear-gradient(to right, #4c83ff, #00c9a7);
+      border: none;
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-weight: 500;
+    }
+
+    .auth-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .auth-card {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 500px;
+      animation: fadeInUp 0.6s ease-in-out;
+    }
+
+    .auth-card h3 {
+      font-weight: bold;
+      color: rgb(1, 27, 83);
+      margin-bottom: 1.5rem;
+    }
+
+    .form-control {
+      border-radius: 10px;
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+      transition: 0.3s;
+    }
+
+    .form-control:focus {
+      border-color: rgb(2, 8, 67);
+      box-shadow: 0 0 0 0.2rem rgba(3, 24, 74, 0.25);
+    }
+
+    .btn-primary {
+      background: linear-gradient(to right, rgb(225, 141, 6), rgb(2, 4, 51));
+      border: none;
+      padding: 10px;
+      border-radius: 10px;
+      font-weight: bold;
+      width: 200px;
+      height: auto;
+    }
+
+    .d-grid {
+      display: flex;
+      justify-content: center;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(to right, rgb(225, 141, 6), rgb(2, 4, 51));
+      transform: scale(1.02);
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .text-muted {
+      color: #6c757d !important;
+    }
+
+    .link-primary {
+      color: #4c83ff;
+      text-decoration: none;
+    }
+
+    .link-primary:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
-<!-- [Head] end -->
-<!-- [Body] Start -->
-
 <body>
-    <!-- [ Pre-loader ] reste inchangé -->
-    <div class="auth-main">
-      <div class="auth-wrapper v3">
-        <div class="auth-form">
-          <div class="card my-5">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-end mb-4">
-                <h3 class="mb-0"><b>Register</b></h3>
-                <a href="/login" class="link-primary">Vous avez déjà un compte ?</a>
-              </div>
-              
-              <form method="POST" action="/register" enctype="multipart/form-data">                @csrf
-                
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group mb-3">
-                      <label class="form-label">Nom</label>
-                      <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" placeholder="Nom">
-                      @error('name')
-                        <span class="invalid-feedback" role="alert">
-                          <strong>{{ $message }}</strong>
-                        </span>
-                      @enderror
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group mb-3">
-                      <label class="form-label">Email</label>
-                      <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="Email">
-                      @error('email')
-                        <span class="invalid-feedback" role="alert">
-                          <strong>{{ $message }}</strong>
-                        </span>
-                      @enderror
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="form-group mb-3">
-                  <label class="form-label">Password</label>
-                  <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="Password">
-                  @error('password')
-                    <span class="invalid-feedback" role="alert">
-                      <strong>{{ $message }}</strong>
-                    </span>
-                  @enderror
-                </div>
-                
-                <div class="form-group mb-3">
-                  <label class="form-label">Confirmer Password</label>
-                  <input type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="Confirmer Password">
-                </div>
-                
-                <!-- Sélection du rôle -->
-                <div class="form-group mb-3">
-                  <label class="form-label">Vous êtes</label>
-                  <select class="form-select @error('role') is-invalid @enderror" name="role" id="roleSelect" required>
-                    <option value="">Sélectionnez votre rôle</option>
-                    <option value="candidat" {{ old('role') == 'candidat' ? 'selected' : '' }}>Candidat</option>
-                    <option value="formateur" {{ old('role') == 'formateur' ? 'selected' : '' }}>Formateur</option>
-                  </select>
-                  @error('role')
-                    <span class="invalid-feedback" role="alert">
-                      <strong>{{ $message }}</strong>
-                    </span>
-                  @enderror
-                </div>
-                
-                <!-- Champs spécifiques formateur (cachés par défaut) -->
-                <div id="formateurFields" style="display: none;">
-                  <div class="form-group mb-3">
-                    <label class="form-label">Spécialité</label>
-                    <input type="text" class="form-control @error('specialite') is-invalid @enderror" name="specialite" value="{{ old('specialite') }}" placeholder="Votre spécialité">
-                    @error('specialite')
-                      <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                      </span>
-                    @enderror
-                  </div>
-                  
-                  <div class="form-group mb-3">
-                    <label class="form-label">Compétences</label>
-                    <textarea class="form-control @error('competence') is-invalid @enderror" name="competence" placeholder="Décrivez vos compétences">{{ old('competence') }}</textarea>
-                    @error('competence')
-                      <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                      </span>
-                    @enderror
-                  </div>
-                  
-                  <div class="form-group mb-3">
-                    <label class="form-label">CV (PDF)</label>
-                    <input type="file" class="form-control @error('cv') is-invalid @enderror" name="cv" accept=".pdf">
-                    @error('cv')
-                      <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                      </span>
-                    @enderror
-                    <small class="text-muted">Taille max: 2MB</small>
-                  </div>
-                </div>
-                
-                <div class="d-grid mt-3">
-                  <button type="submit" class="btn btn-primary">Create Account</button>
-                </div>
-              </form>
-            </div>
-          </div>
-          <div class="auth-footer row"></div>
-        </div>
+
+  <!-- Navbar personnalisée -->
+  <nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container-fluid">
+      <img src="{{ asset('img/logo.png') }}" alt="logo" style="max-height: 80px; width: auto;"> 
+      <div class="collapse navbar-collapse justify-content-end">
+        <ul class="navbar-nav mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="/login">Se connecter</a>
+          </li>
+        </ul>
       </div>
     </div>
-  
-  <!-- [ Main Content ] end -->
-  <!-- Required Js -->
-  <script src="{{ asset('style_authentification/assets/js/plugins/popper.min.js') }}"></script>
-  <script src="{{ asset('style_authentification/assets/js/plugins/simplebar.min.js') }}"></script>
-  <script src="{{ asset('style_authentification/assets/js/plugins/bootstrap.min.js') }}"></script>
-  <script src="{{ asset('style_authentification/assets/js/fonts/custom-font.js') }}"></script>
-  <script src="{{ asset('style_authentification/assets/js/pcoded.js') }}"></script>
-  <script src="{{asset('style_authentification/assets/js/plugins/feather.min.js')}}"></script>
+  </nav>
 
+  <!-- Formulaire d'inscription -->
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <h3 class="mb-3">Créer un compte</h3>
 
-  <script>layout_change('light');</script>
-  
-  <script>change_box_container('false');</script>
-  
-  <script>layout_rtl_change('false');</script>
-  
-  <script>preset_change("preset-1");</script>
-  
-  <script>font_change("Public-Sans");</script>
+      @if ($errors->any())
+        <div class="alert alert-danger">
+          <ul class="mb-0">
+            @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+            @endforeach
+          </ul>
+        </div>
+      @endif
+
+      <form method="POST" action="/register" enctype="multipart/form-data">
+        @csrf
+        
+        <div class="row">
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="name" class="form-label">Nom</label>
+              <input type="text" class="form-control @error('name') is-invalid @enderror" 
+                     id="name" name="name" value="{{ old('name') }}" required autocomplete="name" placeholder="Votre nom">
+              @error('name')
+                <span class="text-danger small">{{ $message }}</span>
+              @enderror
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control @error('email') is-invalid @enderror" 
+                     id="email" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="Votre email">
+              @error('email')
+                <span class="text-danger small">{{ $message }}</span>
+              @enderror
+            </div>
+          </div>
+        </div>
+        
+        <div class="mb-3">
+          <label for="password" class="form-label">Mot de passe</label>
+          <input type="password" class="form-control @error('password') is-invalid @enderror" 
+                 id="password" name="password" required autocomplete="new-password" placeholder="Mot de passe">
+          @error('password')
+            <span class="text-danger small">{{ $message }}</span>
+          @enderror
+        </div>
+        
+        <div class="mb-3">
+          <label for="password-confirm" class="form-label">Confirmer le mot de passe</label>
+          <input type="password" class="form-control" id="password-confirm" 
+                 name="password_confirmation" required autocomplete="new-password" placeholder="Confirmer le mot de passe">
+        </div>
+        
+        <div class="mb-3">
+          <label for="role" class="form-label">Vous êtes</label>
+          <select class="form-select @error('role') is-invalid @enderror" name="role" id="role" required>
+            <option value="">Sélectionnez votre rôle</option>
+            <option value="candidat" {{ old('role') == 'candidat' ? 'selected' : '' }}>Candidat</option>
+            <option value="formateur" {{ old('role') == 'formateur' ? 'selected' : '' }}>Formateur</option>
+          </select>
+          @error('role')
+            <span class="text-danger small">{{ $message }}</span>
+          @enderror
+        </div>
+        
+        <!-- Champs spécifiques formateur (cachés par défaut) -->
+        <div id="formateurFields" style="display: none;">
+          <div class="mb-3">
+            <label for="specialite" class="form-label">Spécialité</label>
+            <input type="text" class="form-control @error('specialite') is-invalid @enderror" 
+                   id="specialite" name="specialite" value="{{ old('specialite') }}" placeholder="Votre spécialité">
+            @error('specialite')
+              <span class="text-danger small">{{ $message }}</span>
+            @enderror
+          </div>
+          
+          <div class="mb-3">
+            <label for="competence" class="form-label">Compétences</label>
+            <textarea class="form-control @error('competence') is-invalid @enderror" 
+                      id="competence" name="competence" rows="3" placeholder="Décrivez vos compétences">{{ old('competence') }}</textarea>
+            @error('competence')
+              <span class="text-danger small">{{ $message }}</span>
+            @enderror
+          </div>
+          
+          <div class="mb-3">
+            <label for="cv" class="form-label">CV (PDF)</label>
+            <input type="file" class="form-control @error('cv') is-invalid @enderror" 
+                   id="cv" name="cv" accept=".pdf">
+            @error('cv')
+              <span class="text-danger small">{{ $message }}</span>
+            @enderror
+            <small class="text-muted">Taille max: 2MB</small>
+          </div>
+        </div>
+        
+        <div class="d-grid mt-4">
+          <button type="submit" class="btn btn-primary">Créer un compte</button>
+        </div>
+      </form>
+
+      <div class="mt-3 text-center">
+        <a href="/login" class="text-decoration-none text-primary">Vous avez déjà un compte ? Connectez-vous</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const roleSelect = document.getElementById('roleSelect');
+      const roleSelect = document.getElementById('role');
       const formateurFields = document.getElementById('formateurFields');
       
       // Gérer l'affichage initial
@@ -184,197 +277,5 @@
       });
     });
   </script>
-
-
-
-
- <div class="offcanvas pct-offcanvas offcanvas-end" tabindex="-1" id="offcanvas_pc_layout">
-  <div class="offcanvas-header bg-primary">
-    <h5 class="offcanvas-title text-white">Mantis Customizer</h5>
-    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="pct-body" style="height: calc(100% - 60px)">
-    <div class="offcanvas-body">
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item">
-          <a class="btn border-0 text-start w-100" data-bs-toggle="collapse" href="#pctcustcollapse1">
-            <div class="d-flex align-items-center">
-              <div class="flex-shrink-0">
-                <div class="avtar avtar-xs bg-light-primary">
-                  <i class="ti ti-layout-sidebar f-18"></i>
-                </div>
-              </div>
-              <div class="flex-grow-1 ms-3">
-                <h6 class="mb-1">Theme Layout</h6>
-                <span>Choose your layout</span>
-              </div>
-              <i class="ti ti-chevron-down"></i>
-            </div>
-          </a>
-          <div class="collapse show" id="pctcustcollapse1">
-            <div class="pct-content">
-              <div class="pc-rtl">
-                <p class="mb-1">Direction</p>
-                <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" role="switch" id="layoutmodertl">
-                  <label class="form-check-label" for="layoutmodertl">RTL</label>
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <a class="btn border-0 text-start w-100" data-bs-toggle="collapse" href="#pctcustcollapse2">
-            <div class="d-flex align-items-center">
-              <div class="flex-shrink-0">
-                <div class="avtar avtar-xs bg-light-primary">
-                  <i class="ti ti-brush f-18"></i>
-                </div>
-              </div>
-              <div class="flex-grow-1 ms-3">
-                <h6 class="mb-1">Theme Mode</h6>
-                <span>Choose light or dark mode</span>
-              </div>
-              <i class="ti ti-chevron-down"></i>
-            </div>
-          </a>
-          <div class="collapse show" id="pctcustcollapse2">
-            <div class="pct-content">
-              <div class="theme-color themepreset-color theme-layout">
-                <a href="#!" class="active" onclick="layout_change('light')" data-value="false"
-                  ><span><img src="{{asset('style_authentification//assets/images/customization/default.svg')}}" alt="img"></span><span>Light</span></a
-                >
-                <a href="#!" class="" onclick="layout_change('dark')" data-value="true"
-                  ><span><img src="{{asset('style_authentification/assets/images/customization/dark.svg')}}" alt="img"></span><span>Dark</span></a
-                >
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <a class="btn border-0 text-start w-100" data-bs-toggle="collapse" href="#pctcustcollapse3">
-            <div class="d-flex align-items-center">
-              <div class="flex-shrink-0">
-                <div class="avtar avtar-xs bg-light-primary">
-                  <i class="ti ti-color-swatch f-18"></i>
-                </div>
-              </div>
-              <div class="flex-grow-1 ms-3">
-                <h6 class="mb-1">Color Scheme</h6>
-                <span>Choose your primary theme color</span>
-              </div>
-              <i class="ti ti-chevron-down"></i>
-            </div>
-          </a>
-          <div class="collapse show" id="pctcustcollapse3">
-            <div class="pct-content">
-                <div class="theme-color preset-color">
-                    <a href="#!" class="active" data-value="preset-1">
-                      <span><img src="{{ asset('style_authentification/assets/images/customization/theme-color.svg') }}" alt="img"></span>
-                      <span>Theme 1</span>
-                    </a>
-                    <a href="#!" class="" data-value="preset-2">
-                      <span><img src="{{ asset('style_authentification/assets/images/customization/theme-color.svg') }}" alt="img"></span>
-                      <span>Theme 2</span>
-                    </a>
-                    <a href="#!" class="" data-value="preset-3">
-                      <span><img src="{{ asset('style_authentification/assets/images/customization/theme-color.svg') }}" alt="img"></span>
-                      <span>Theme 3</span>
-                    </a>
-                    <a href="#!" class="" data-value="preset-4">
-                      <span><img src="{{ asset('style_authentification/assets/images/customization/theme-color.svg') }}" alt="img"></span>
-                      <span>Theme 4</span>
-                    </a>
-                    <a href="#!" class="" data-value="preset-5">
-                      <span><img src="{{ asset('style_authentification/assets/images/customization/theme-color.svg') }}" alt="img"></span>
-                      <span>Theme 5</span>
-                    </a>
-                    <a href="#!" class="" data-value="preset-6">
-                      <span><img src="{{ asset('style_authentification/assets/images/customization/theme-color.svg') }}" alt="img"></span>
-                      <span>Theme 6</span>
-                    </a>
-                    <a href="#!" class="" data-value="preset-7">
-                      <span><img src="{{ asset('style_authentification/assets/images/customization/theme-color.svg') }}" alt="img"></span>
-                      <span>Theme 7</span>
-                    </a>
-                    <a href="#!" class="" data-value="preset-8">
-                      <span><img src="{{ asset('style_authentification/assets/images/customization/theme-color.svg') }}" alt="img"></span>
-                      <span>Theme 8</span>
-                    </a>
-                    <a href="#!" class="" data-value="preset-9">
-                      <span><img src="{{ asset('style_authentification/assets/images/customization/theme-color.svg') }}" alt="img"></span>
-                      <span>Theme 9</span>
-                    </a>
-                  </div>
-            </div>
-          </div>
-        </li>
-        <li class="list-group-item pc-boxcontainer">
-          <a class="btn border-0 text-start w-100" data-bs-toggle="collapse" href="#pctcustcollapse4">
-            <div class="d-flex align-items-center">
-              <div class="flex-shrink-0">
-                <div class="avtar avtar-xs bg-light-primary">
-                  <i class="ti ti-border-inner f-18"></i>
-                </div>
-              </div>
-              <div class="flex-grow-1 ms-3">
-                <h6 class="mb-1">Layout Width</h6>
-                <span>Choose fluid or container layout</span>
-              </div>
-              <i class="ti ti-chevron-down"></i>
-            </div>
-          </a>
-          <div class="collapse show" id="pctcustcollapse4">
-            <div class="pct-content">
-              <div class="theme-color themepreset-color boxwidthpreset theme-container">
-                <a href="#!" class="active" onclick="change_box_container('false')" data-value="false"><span><img src="{{asset('style_authentification/assets/images/customization/default.svg')}}" alt="img"></span><span>Fluid</span></a>
-                <a href="#!" class="" onclick="change_box_container('true')" data-value="true"><span><img src="{{asset('style_authentification/assets/images/customization/container.svg')}}" alt="img"></span><span>Container</span></a>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <a class="btn border-0 text-start w-100" data-bs-toggle="collapse" href="#pctcustcollapse5">
-            <div class="d-flex align-items-center">
-              <div class="flex-shrink-0">
-                <div class="avtar avtar-xs bg-light-primary">
-                  <i class="ti ti-typography f-18"></i>
-                </div>
-              </div>
-              <div class="flex-grow-1 ms-3">
-                <h6 class="mb-1">Font Family</h6>
-                <span>Choose your font family.</span>
-              </div>
-              <i class="ti ti-chevron-down"></i>
-            </div>
-          </a>
-          <div class="collapse show" id="pctcustcollapse5">
-            <div class="pct-content">
-              <div class="theme-color fontpreset-color">
-                <a href="#!" class="active" onclick="font_change('Public-Sans')" data-value="Public-Sans"
-                  ><span>Aa</span><span>Public Sans</span></a
-                >
-                <a href="#!" class="" onclick="font_change('Roboto')" data-value="Roboto"><span>Aa</span><span>Roboto</span></a>
-                <a href="#!" class="" onclick="font_change('Poppins')" data-value="Poppins"><span>Aa</span><span>Poppins</span></a>
-                <a href="#!" class="" onclick="font_change('Inter')" data-value="Inter"><span>Aa</span><span>Inter</span></a>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <div class="collapse show">
-            <div class="pct-content">
-              <div class="d-grid">
-                <button class="btn btn-light-danger" id="layoutreset">Reset Layout</button>
-              </div>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
 </body>
-<!-- [Body] end -->
-
 </html>

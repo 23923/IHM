@@ -14,7 +14,10 @@ class Rating extends Model
         'note',
     ];
 
-    // Relations
+    protected $casts = [
+        'note' => 'integer',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

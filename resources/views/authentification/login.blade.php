@@ -2,15 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Connexion | Mantis</title>
+  <title>Connexion</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;600&display=swap">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <style>
     body {
       font-family: 'Public Sans', sans-serif;
-      background: linear-gradient(135deg, #4c83ff, #00c9a7);
+      /* Remplacement du gradient par l'image de fond */
+      background-image: url("{{ asset('img/background.jpg') }}");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
       margin: 0;
+    }
+
+    /* Ajout d'un overlay semi-transparent pour améliorer la lisibilité */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
     }
 
     .navbar-custom {
@@ -21,7 +36,7 @@
 
     .navbar-custom .nav-link {
       color: #333 !important;
-      font-weight: 500;
+      font-weight: 300px!important;
     }
 
     .navbar-custom .nav-link:hover {
@@ -55,7 +70,7 @@
 
     .auth-card h3 {
       font-weight: bold;
-      color: #4c83ff;
+      color:rgb(1, 27, 83);
     }
 
     .form-control {
@@ -66,20 +81,29 @@
     }
 
     .form-control:focus {
-      border-color: #4c83ff;
-      box-shadow: 0 0 0 0.2rem rgba(76, 131, 255, 0.25);
+      border-color:rgb(2, 8, 67);
+      box-shadow: 0 0 0 0.2rem rgba(3, 24, 74, 0.25);
     }
 
     .btn-primary {
-      background: linear-gradient(to right, #4c83ff, #00c9a7);
+      background: linear-gradient(to right,rgb(225, 141, 6),rgb(2, 4, 51));
       border: none;
       padding: 10px;
       border-radius: 10px;
       font-weight: bold;
+      
     }
-
+    .btn-primary {
+  width: 200px;  
+  height: auto; 
+   
+}
+.d-grid {
+    display: flex;
+    justify-content: center; /* Centre horizontalement */
+}
     .btn-primary:hover {
-      background: linear-gradient(to right, #00c9a7, #4c83ff);
+      background: linear-gradient(to right,rgb(225, 141, 6),rgb(2, 4, 51));
       transform: scale(1.02);
     }
 
@@ -100,7 +124,7 @@
   <!-- Navbar personnalisée -->
   <nav class="navbar navbar-expand-lg navbar-custom">
     <div class="container-fluid">
-      <a class="navbar-brand text-primary fw-bold" href="#">Mantis</a>
+    <img src="{{ asset('img/logo.png') }}" alt="logo" style="max-height: 80px; width: auto;"> 
       <div class="collapse navbar-collapse justify-content-end">
         <ul class="navbar-nav mb-2 mb-lg-0">
           <li class="nav-item">
@@ -155,7 +179,7 @@
       </form>
 
       <div class="mt-3 text-center">
-        <a href="/register" class="text-decoration-none text-primary">Vous n’avez pas de compte ? Créez-en un</a>
+        <a href="/register" class="text-decoration-none text-primary">Vous n'avez pas de compte ? Créez-en un</a>
       </div>
     </div>
   </div>

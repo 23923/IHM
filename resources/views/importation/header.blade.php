@@ -54,15 +54,11 @@
     
     @foreach($categories as $category)
     <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown{{ $category->id }}" 
-           role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {{ $category->nomcategorie }}
+        <a class="nav-link dropdown-toggle"href="{{ route('course', ['categorie' => $category->id]) }}">
+                        {{ $category->nomcategorie }}
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown{{ $category->id }}">
-            <!-- Lien pour la catégorie principale -->
-            <a class="dropdown-item" href="{{ route('course', ['categorie' => $category->id]) }}">
-                Tous {{ $category->nomcategorie }}
-            </a>
+   
             <!-- Sous-catégories -->
             @foreach($category->scategories as $subcategory)
                 <a class="dropdown-item" href="{{ route('course', ['scategorie' => $subcategory->id]) }}">

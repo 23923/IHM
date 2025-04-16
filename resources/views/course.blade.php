@@ -322,25 +322,51 @@ body {
                             @endphp
 
                             <div class="author_rating">
-                                <div class="rating">
-                                    @for($i = 1; $i <= 5; $i++)
-                                        <a href="#" class="star" data-value="{{ $i }}" @if($userRating && $i <= $userRating->note) style="pointer-events: none;" @endif>
-                                            <img src="{{ asset($userRating && $i <= $userRating->note ? 'img/icon/color_star.svg' : 'img/icon/star.svg') }}" 
-                                                 alt="{{ $i }} star"
-                                                 class="star-icon"
-                                                 data-star="{{ $i }}">
-                                        </a>
-                                    @endfor
-                                </div>
-                                <p>{{ $averageRating }} ({{ $formation->ratings->count() }} avis)</p>
-                                
-                                <!-- Formulaire pour enregistrer la note -->
-                                <form id="ratingForm-{{ $formation->id }}" action="{{ route('ratings.store') }}" method="POST" class="d-none">
-                                    @csrf
-                                    <input type="hidden" name="formation_id" value="{{ $formation->id }}">
-                                    <input type="hidden" name="note" id="noteInput-{{ $formation->id }}" value="{{ $userRating->note ?? '' }}">
-                                </form>
-                            </div>
+    <div class="rating">
+        @for($i = 1; $i <= 5; $i++)
+            <a href="#" class="star" data-value="{{ $i }}" data-formation="{{ $formation->id }}">
+                <img src="{{ asset($userRating && $i <= $userRating->note ? 'img/icon/color_star.svg' : 'img/icon/star.svg') }}" 
+                     alt="{{ $i }} star"
+                     class="star-icon">
+            </a>
+        @endfor
+    </div>
+    <p>{{ $averageRating }} ({{ $formation->ratings->count() }} avis)</p>
+    
+    <!-- Formulaire pour enregistrer la note -->
+    <form id="ratingForm-{{ $formation->id }}" action="{{ route('ratings.store') }}" method="POST" class="d-none">
+        @csrf
+        <input type="hidden" name="formation_id" value="{{ $formation->id }}">
+        <input type="hidden" name="note" id="noteInput-{{ $formation->id }}" value="{{ $userRating->note ?? '' }}">
+    </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.star').forEach(star => {
+        star.addEventListener('click', function(e) {
+            e.preventDefault();
+            const formationId = this.getAttribute('data-formation');
+            const value = this.getAttribute('data-value');
+            
+            // Mettre à jour l'affichage des étoiles
+            const stars = document.querySelectorAll(`.star[data-formation="${formationId}"]`);
+            stars.forEach((s, i) => {
+                const starImg = s.querySelector('img');
+                if (i < value) {
+                    starImg.src = "{{ asset('img/icon/color_star.svg') }}";
+                } else {
+                    starImg.src = "{{ asset('img/icon/star.svg') }}";
+                }
+            });
+            
+            // Soumettre le formulaire
+            document.getElementById(`noteInput-${formationId}`).value = value;
+            document.getElementById(`ratingForm-${formationId}`).submit();
+        });
+    });
+});
+</script>
 
                          
                         @endif
