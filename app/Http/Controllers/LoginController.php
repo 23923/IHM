@@ -38,7 +38,7 @@ class LoginController extends Controller
             return redirect()->route('list');
         }
         if ($user->isFormateur()) {
-            return redirect()->route('list');
+            return redirect()->route('formations');
         }
       
 

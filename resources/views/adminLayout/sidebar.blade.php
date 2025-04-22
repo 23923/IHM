@@ -1,56 +1,36 @@
 <head>
     
-    <!-- Fonts and icons -->
-    <script src="{{asset('assets/js/plugin/webfont/webfont.min.js')}}"></script>
-    <script>
-      WebFont.load({
-        google: { families: ["Public Sans:300,400,500,600,700"] },
-        custom: {
-          families: [
-            "Font Awesome 5 Solid",
-            "Font Awesome 5 Regular",
-            "Font Awesome 5 Brands",
-            "simple-line-icons",
-          ],
-          urls: ["{{asset('assets/css/fonts.min.css')}}"],
-        },
-        active: function () {
-          sessionStorage.fonts = true;
-        },
-      });
-    </script>
-    <link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/css/plugins.min.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/css/kaiadmin.min.css')}}" />
-
-    <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link rel="stylesheet" href="{{asset('assets/css/demo.css')}}" />
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>School</title>
+    <link rel="icon" href="{{ asset('img/logo.png') }}">
 </head>
 <!-- Sidebar -->
 <div class="sidebar" data-background-color="dark">
     <div class="sidebar-logo">
       <!-- Logo Header -->
       <div class="logo-header" data-background-color="dark">
-        <a href="index.html" class="logo">
-          <img
-            src="{{ asset('assets/img/kaiadmin/logo_light.svg') }}"
-            alt="navbar brand"
-            class="navbar-brand"
-            height="20"
-          />
-        </a>
-        <div class="nav-toggle">
-          <button class="btn btn-toggle toggle-sidebar">
-            <i class="gg-menu-right"></i>
-          </button>
-          <button class="btn btn-toggle sidenav-toggler">
-            <i class="gg-menu-left"></i>
-          </button>
-        </div>
-        <button class="topbar-toggler more">
-          <i class="gg-more-vertical-alt"></i>
-        </button>
-      </div>
+  <a href="" class="logo">
+    <img
+      src="{{ asset('img/dasbord.png')  }}"
+      alt="navbar brand"
+      class="navbar-brand"
+      height="70"
+    />
+  </a>
+  <h1 class="school-title" style="color: white; margin: 0; padding-left: 15px;">School</h1>
+  <div class="nav-toggle">
+    <button class="btn btn-toggle toggle-sidebar">
+      <i class="gg-menu-right"></i>
+    </button>
+    <button class="btn btn-toggle sidenav-toggler">
+      <i class="gg-menu-left"></i>
+    </button>
+  </div>
+  <button class="topbar-toggler more">
+    <i class="gg-more-vertical-alt"></i>
+  </button>
+</div>
       <!-- End Logo Header -->
     </div>
     <div class="sidebar-wrapper scrollbar scrollbar-inner">
@@ -63,6 +43,10 @@
             </span>
             <h4 class="text-section">les listes</h4>
           </li>
+          @auth
+
+          @if(auth()->user()->isAdmin())
+
           <li class="nav-item">
               <a href="/list" title="Go to Categories">
                 <i class="fas fa-layer-group"></i>
@@ -76,12 +60,30 @@
               </a>
             </li>
            
-             <li class="nav-item">
-              <a href="/formations" title="Go to Categories">
+             
+            <li class="nav-item">
+              <a href="/admin/candidats" title="Go to Categories">
                 <i class="fas fa-layer-group"></i>
-                <p>Formation</p>
+                <p>Gérer candidats</p>
               </a>
             </li>
+            <li class="nav-item">
+              <a href="/admin/formateurs" title="Go to Categories">
+                <i class="fas fa-layer-group"></i>
+                <p>Gérer formateurs</p>
+              </a>
+            </li>
+            @endif
+            @if(auth()->user()->isFormateur())
+
+            <li class="nav-item">
+              <a href="/formations" title="Go to Categories">
+                <i class="fas fa-layer-group"></i>
+                <p>Formations</p>
+              </a>
+            </li>
+            @endif
+            @endauth
         </ul>
       </div>
     </div>
@@ -131,7 +133,7 @@
     width: "100%",
     lineWidth: "2",
     lineColor: "#177dff",
-    fillColor: "rgba(23, 125, 255, 0.14)",
+    fillColor: "rgba(231, 141, 22, 0.14)",
   });
 
   $("#lineChart2").sparkline([99, 125, 122, 105, 110, 124, 115], {

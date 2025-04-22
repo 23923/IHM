@@ -42,7 +42,13 @@
       bottom: 0;
       z-index: -1;
     }
-
+    .custom-link-color {
+      color:rgb(1, 27, 83);
+}
+.custom-link-color:hover {
+  color:rgb(241, 102, 16) !important;
+  text-decoration: none;
+}
     .navbar-custom {
       background-color: #fff;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
@@ -55,7 +61,7 @@
     }
 
     .navbar-custom .nav-link:hover {
-      color: #4c83ff !important;
+      color:rgb(241, 102, 16) !important;
     }
 
     .navbar-custom .btn-primary {
@@ -110,7 +116,37 @@
       width: 200px;
       height: auto;
     }
+/* ... vos autres styles existants ... */
 
+.form-control {
+    border-radius: 10px;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    transition: 0.3s;
+}
+
+.form-control:focus {
+    border-color: rgb(2, 8, 67);
+    box-shadow: 0 0 0 0.2rem rgba(3, 24, 74, 0.25);
+}
+
+/* Nouveau style pour le select */
+.form-select {
+    border-radius: 10px !important;
+    padding: 10px 15px !important;
+    border: 1px solid #ddd !important;
+    transition: 0.3s !important;
+    height: auto !important;
+    font-size: 1rem !important;
+}
+
+.form-select:focus {
+    border-color: rgb(2, 8, 67) !important;
+    box-shadow: 0 0 0 0.2rem rgba(3, 24, 74, 0.25) !important;
+    outline: none !important;
+}
+
+/* ... le reste de votre CSS existant ... */
     .d-grid {
       display: flex;
       justify-content: center;
@@ -267,7 +303,7 @@
       </form>
 
       <div class="mt-3 text-center">
-        <a href="/login" class="text-decoration-none text-primary">Vous avez déjà un compte ? Connectez-vous</a>
+        <a href="/login" class="text-decoration-none custom-link-color">Vous avez déjà un compte ? Connectez-vous</a>
       </div>
     </div>
   </div>

@@ -1,21 +1,45 @@
 
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion des Sous-Catégories</title>
-    <link rel="icon" href="{{ asset('assets/img/kaiadmin/favicon.ico') }}" type="image/x-icon" />
-    <link rel="stylesheet" href="{{ asset('assets/css/kaiadmin.min.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-</head>
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>School</title>
+    <link rel="icon" href="{{ asset('img/logo.png') }}">
+    
+        <!-- Fonts and icons -->
+        <script src="{{ asset('assets/js/plugin/webfont/webfont.min.js') }}"></script>
+        <script>
+          WebFont.load({
+            google: { families: ["Public Sans:300,400,500,600,700"] },
+            custom: {
+              families: [
+                "Font Awesome 5 Solid",
+                "Font Awesome 5 Regular",
+                "Font Awesome 5 Brands",
+                "simple-line-icons",
+              ],
+              urls: ["{{ asset('assets/css/fonts.min.css') }}"],
+            },
+            active: function () {
+              sessionStorage.fonts = true;
+            },
+          });
+        </script>
+    
+        <!-- CSS Files -->
+        @stack('styles')
+    </head>
 <body>
     <div class="wrapper">
         @include('adminLayout/sidebar')
         <div class="main-panel">
             @include('adminLayout/navbar')
+            @yield('content')
 
-            <div class="container mt-4">
+            <div class="container">
+                <div class="col-md-12">
+
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex align-items-center">
@@ -256,4 +280,3 @@
     </script>
 </body>
 </html>
-

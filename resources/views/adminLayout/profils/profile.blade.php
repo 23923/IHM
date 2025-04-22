@@ -1,12 +1,10 @@
 <!doctype html>
 <html lang="fr">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Profil Utilisateur</title>
-    <!-- Inclure vos CSS ici -->
-    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
-    <!-- Autres CSS -->
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>School</title>
+    <link rel="icon" href="{{ asset('img/logo.png') }}">
 </head>
 <body>
     <div class="wrapper">

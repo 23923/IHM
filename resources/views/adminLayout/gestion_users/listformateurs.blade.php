@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Kaiadmin - Bootstrap 5 Admin Dashboard</title>
-    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
-    <link rel="icon" href="{{ asset('assets/img/kaiadmin/favicon.ico') }}" type="image/x-icon" />
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>School</title>
+    <link rel="icon" href="{{ asset('img/logo.png') }}">
 
     <!-- Fonts and icons -->
     <script src="{{ asset('assets/js/plugin/webfont/webfont.min.js') }}"></script>
@@ -49,6 +49,10 @@
                             </div>
                         </div>
                         <div class="card-body">
+                            <!-- Formulaire de recherche -->
+                            <div class="d-flex mb-4">
+                              <input type="text" id="searchInput" class="form-control" placeholder="Rechercher un formateur" />
+                          </div>
                             <div class="table-responsive">
                                 <table id="formateurs-table" class="display table table-striped table-hover">
                                     <thead>
@@ -57,7 +61,6 @@
                                             <th>Email</th>
                                             <th>Spécialité</th>
                                             <th>Compétences</th>
-                                            <th>CV</th>
                                             <th>Statut</th>
                                             <th style="width: 10%">Actions</th>
                                         </tr>
@@ -69,7 +72,7 @@
                                             <td>{{ $formateur->email }}</td>
                                             <td>{{ $formateur->specialite ?? '-' }}</td>
                                             <td>{{ Str::limit($formateur->competence, 30) ?? '-' }}</td>
-                                            <td>
+                                            {{-- <td>
                                               @if($formateur->cv_path)
                                                   <a href="{{ asset('storage/'.$formateur->cv_path) }}" target="_blank" class="btn btn-sm btn-info">
                                                       <i class="fa fa-eye"></i> Voir
@@ -77,7 +80,7 @@
                                               @else
                                                   <span class="text-muted">Non fourni</span>
                                               @endif
-                                          </td>
+                                          </td> --}}
                                             <td>
                                                 <span class="badge {{ $formateur->is_active ? 'bg-success' : 'bg-danger' }}">
                                                     {{ $formateur->is_active ? 'Actif' : 'Inactif' }}
@@ -149,9 +152,7 @@
               </div>
         </div>
        
-            <footer class="footer">
-                <!-- Footer content -->
-            </footer>
+         
         </div>
         </div>
     </div>
@@ -205,7 +206,11 @@
               });
           },
         });
-
+   // Recherche en temps réel avec keyup
+          $("#searchInput").on('keyup', function () {
+                const searchTerm = $(this).val().toLowerCase();
+                searchCategories(searchTerm);
+            });
         // Add Row
         $("#add-row").DataTable({
           pageLength: 5,
@@ -226,6 +231,8 @@
           $("#addRowModal").modal("hide");
         });
       });
+
+      
     </script>
 
     <!-- JS Files -->

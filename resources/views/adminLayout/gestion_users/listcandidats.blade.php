@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Kaiadmin - Bootstrap 5 Admin Dashboard</title>
-    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
-    <link rel="icon" href="{{ asset('assets/img/kaiadmin/favicon.ico') }}" type="image/x-icon" />
-
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>School</title>
+    <link rel="icon" href="{{ asset('img/logo.png') }}">
     <!-- Fonts and icons -->
     <script src="{{ asset('assets/js/plugin/webfont/webfont.min.js') }}"></script>
     <script>
@@ -39,19 +38,20 @@
             
             @yield('content')
             <div class="container">
-
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
                             <div class="d-flex align-items-center">
                                 <h4 class="card-title">Liste des Candidats</h4>
-                                <a href="#" class="btn btn-primary btn-round ms-auto" data-bs-toggle="modal" data-bs-target="#addCandidatModal">
-                                    <i class="fa fa-plus"></i>
-                                    Ajouter un candidat
-                                </a>
+                                
                             </div>
                         </div>
                         <div class="card-body">
+                            <!-- Formulaire de recherche -->
+                            <div class="d-flex mb-4">
+                              <input type="text" id="searchInput" class="form-control" placeholder="Rechercher un candidat" />
+                          </div>
+
                             <div class="table-responsive">
                                 <table id="candidats-table" class="display table table-striped table-hover">
                                     <thead>
@@ -138,10 +138,8 @@
               </div>
         </div>
        
-            <footer class="footer">
-                <!-- Footer content -->
-            </footer>
-        </div>
+          
+        
         </div>
     </div>
 <script src="{{ asset('assets/js/plugin/chart.js/chart.min.js') }}"></script>

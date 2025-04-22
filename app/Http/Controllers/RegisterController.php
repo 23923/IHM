@@ -99,7 +99,7 @@ class RegisterController extends Controller
     protected function registered(Request $request, $user)
     {
         if ($user->role === 'formateur') {
-            return redirect()->route('list');
+            return redirect()->route('formations');
         }
         return redirect()->route('course');
     }

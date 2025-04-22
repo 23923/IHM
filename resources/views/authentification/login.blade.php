@@ -58,8 +58,15 @@
     }
 
     .navbar-custom .nav-link:hover {
-      color: #4c83ff !important;
+      color:rgb(241, 102, 16) !important;
     }
+    .custom-link-color {
+      color:rgb(1, 27, 83);
+}
+.custom-link-color:hover {
+  color:rgb(241, 102, 16) !important;
+  text-decoration: none;
+}
 
     .navbar-custom .btn-primary {
       background: linear-gradient(to right, #4c83ff, #00c9a7);
@@ -134,6 +141,7 @@
         opacity: 1;
         transform: translateY(0);
       }
+      
     }
   </style>
 </head>
@@ -193,10 +201,8 @@
       </form>
 
       <div class="mt-3 text-center">
-        <a href="/register" class="text-decoration-none text-primary">Vous n'avez pas de compte ? Créez-en un</a>
-      </div>
-    </div>
-  </div>
+  <a href="/register" class=" custom-link-color">Vous n'avez pas de compte ? Créez-en un</a>
+</div>
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

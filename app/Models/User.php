@@ -22,7 +22,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
        'name', 'email', 'password', 'role', 
-        'specialite', 'competence', 'cv_path'
+        'specialite', 'competence', 'cv_path', 'is_active'
     ];
 
 
@@ -35,7 +35,13 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-
+    protected $casts = [
+        'is_active' => 'boolean'
+    ];
+    public function isActive()
+    {
+        return $this->is_active;
+    }
     /**
      * Get the attributes that should be cast.
      *
