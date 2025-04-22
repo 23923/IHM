@@ -21,20 +21,7 @@
                     <p class="text-muted mb-4" style="line-height: 1.6;">
                         Plateforme e-learning innovante offrant des cours de qualité pour votre développement professionnel et personnel.
                     </p>
-                    <div class="social-icons d-flex gap-3">
-                        <a href="#" class="text-muted hover-dark transition-normal fs-5">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#" class="text-muted hover-dark transition-normal fs-5">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="text-muted hover-dark transition-normal fs-5">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                        <a href="#" class="text-muted hover-dark transition-normal fs-5">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </div>
+                    
                 </div>
             </div>
 
