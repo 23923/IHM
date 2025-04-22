@@ -1,11 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Connexion</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;600&display=swap">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-  <style>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>School</title>
+    <!-- Favicon avec asset() -->
+    <link rel="icon" href="{{ asset('img/logo.png') }}">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <!-- animate CSS -->
+    <link rel="stylesheet" href="{{ asset('css/animate.css') }}">
+    <!-- owl carousel CSS -->
+    <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}">
+    <!-- themify CSS -->
+    <link rel="stylesheet" href="{{ asset('css/themify-icons.css') }}">
+    <!-- flaticon CSS -->
+    <link rel="stylesheet" href="{{ asset('css/flaticon.css') }}">
+    <!-- font awesome CSS -->
+    <link rel="stylesheet" href="{{ asset('css/magnific-popup.css') }}">
+    <!-- swiper CSS -->
+    <link rel="stylesheet" href="{{ asset('css/slick.css') }}">
+    <!-- style CSS -->
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <style>
     body {
       font-family: 'Public Sans', sans-serif;
       /* Remplacement du gradient par l'image de fond */
@@ -174,7 +192,7 @@
         </div>
 
         <div class="d-grid">
-          <button type="submit" class="btn btn-primary">Se connecter</button>
+          <button type="submit"  class="btn_1">Se connecter</button>
         </div>
       </form>
 
