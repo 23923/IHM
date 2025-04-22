@@ -185,11 +185,7 @@
           @enderror
         </div>
 
-        <div class="mb-3 form-check">
-          <input type="checkbox" class="form-check-input" name="remember" id="remember"
-                 {{ old('remember') ? 'checked' : '' }}>
-          <label class="form-check-label text-muted" for="remember">Rester connecté</label>
-        </div>
+
 
         <div class="d-grid">
           <button type="submit"  class="btn_1">Se connecter</button>

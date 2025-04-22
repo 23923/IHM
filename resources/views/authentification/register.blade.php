@@ -262,7 +262,7 @@
         </div>
         
         <div class="d-grid mt-4">
-          <button type="submit" class="btn btn-primary">Créer un compte</button>
+          <button type="submit" class="btn_1">Créer un compte</button>
         </div>
       </form>
 
